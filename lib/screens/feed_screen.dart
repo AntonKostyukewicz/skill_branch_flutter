@@ -2,9 +2,7 @@ import 'package:FlutterGalleryApp/res/colors.dart';
 import 'package:FlutterGalleryApp/res/res.dart';
 import 'package:FlutterGalleryApp/res/styles.dart';
 import 'package:FlutterGalleryApp/screens/photo_screen.dart';
-import 'package:FlutterGalleryApp/widgets/like_button.dart';
-import 'package:FlutterGalleryApp/widgets/photo.dart';
-import 'package:FlutterGalleryApp/widgets/user_avatar.dart';
+import 'package:FlutterGalleryApp/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

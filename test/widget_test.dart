@@ -1,6 +1,5 @@
 import 'package:FlutterGalleryApp/res/app_icons.dart';
-import 'package:FlutterGalleryApp/widgets/like_button.dart';
-import 'package:FlutterGalleryApp/widgets/photo.dart';
+import 'package:FlutterGalleryApp/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

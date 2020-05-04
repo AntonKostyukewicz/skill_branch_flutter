@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 class Photo extends StatelessWidget {
 
-  final String photoLink;
-
   Photo({Key key, this.photoLink}) : super(key: key);
+
+  final String photoLink;
 
   @override
   Widget build(BuildContext context) {

@@ -1,8 +1,6 @@
 import 'package:FlutterGalleryApp/res/colors.dart';
 import 'package:FlutterGalleryApp/res/styles.dart';
-import 'package:FlutterGalleryApp/widgets/like_button.dart';
-import 'package:FlutterGalleryApp/widgets/photo.dart';
-import 'package:FlutterGalleryApp/widgets/user_avatar.dart';
+import 'package:FlutterGalleryApp/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -65,7 +63,10 @@ class FullScreenImageState extends State<FullScreenImage> {
     return AppBar(
       title: Text('Photo'),
       leading: IconButton(
-        icon: const Icon(CupertinoIcons.back)
+        icon: const Icon(CupertinoIcons.back),
+          onPressed: () {
+            Navigator.pop(context);
+          }
       ),
     );
   }
