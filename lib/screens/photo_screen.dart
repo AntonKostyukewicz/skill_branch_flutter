@@ -11,6 +11,7 @@ class FullScreenImage extends StatefulWidget {
     this.userName = '',
     this.name = '',
     this.userPhoto = '',
+    this.heroTag,
     Key key,
   }) : super(key: key);
 
@@ -19,6 +20,7 @@ class FullScreenImage extends StatefulWidget {
   final String userName;
   final String name;
   final String userPhoto;
+  final String heroTag;
 
   @override
   State<StatefulWidget> createState() {
@@ -27,7 +29,33 @@ class FullScreenImage extends StatefulWidget {
 
 }
 
-class FullScreenImageState extends State<FullScreenImage> {
+class FullScreenImageState extends State<FullScreenImage> with TickerProviderStateMixin {
+
+  AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+        duration: Duration(milliseconds: 1500),
+        vsync: this
+    );
+    _playAnimation();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _playAnimation() async {
+    try {
+      await _animationController.forward().orCancel;
+    } on TickerCanceled {
+
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +66,10 @@ class FullScreenImageState extends State<FullScreenImage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Photo(photoLink: widget.photo),
+            Hero(
+              tag: widget.heroTag,
+              child: Photo(photoLink: widget.photo),
+            ),
             const SizedBox(height: 11),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -50,7 +81,12 @@ class FullScreenImageState extends State<FullScreenImage> {
               ),
             ),
             const SizedBox(height: 9),
-            _buildPhotoMeta(),
+            PhotoMetaData(
+              animationController: _animationController,
+              name: widget.name,
+              userName: widget.userName,
+              photo: widget.userPhoto,
+            ),
             const SizedBox(height: 17),
             _buildActionButton(),
           ],
@@ -67,28 +103,6 @@ class FullScreenImageState extends State<FullScreenImage> {
           onPressed: () {
             Navigator.pop(context);
           }
-      ),
-    );
-  }
-
-  Widget _buildPhotoMeta() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Row(
-        children: <Widget>[
-          UserAvatar(widget.userPhoto),
-          SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                widget.name,
-                style: AppStyles.h1Black,
-              ),
-              Text("@${widget.userName}", style: AppStyles.h5Black.copyWith(color: AppColors.manatee))
-            ],
-          )
-        ],
       ),
     );
   }
@@ -128,5 +142,79 @@ class FullScreenImageState extends State<FullScreenImage> {
       )
     );
   }
+
+}
+
+class PhotoMetaData extends StatelessWidget {
+
+  PhotoMetaData({
+    this.animationController,
+    this.userName,
+    this.name,
+    this.photo,
+    Key key
+}) : opacityAvatar = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Interval(0.0, 0.5, curve: Curves.ease),
+      ),
+    ),
+    opacityName = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Interval(0.0, 1.0, curve: Curves.ease),
+      ),
+    ),
+    super(key: key);
+
+  final String userName;
+  final String name;
+  final String photo;
+
+  final AnimationController animationController;
+  final Animation<double> opacityAvatar;
+  final Animation<double> opacityName;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: Row(
+        children: <Widget>[
+          AnimatedBuilder(
+            animation: animationController,
+            builder: (context, child) {
+              return FadeTransition(
+                opacity: opacityAvatar,
+                child: child,
+              );
+            },
+            child: UserAvatar(photo),
+          ),
+          SizedBox(width: 10),
+          AnimatedBuilder(
+            animation: animationController,
+            builder: (context, child) {
+              return FadeTransition(
+                opacity: opacityName,
+                child: child,
+              );
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  name,
+                  style: AppStyles.h1Black,
+                ),
+                Text("@$userName", style: AppStyles.h5Black.copyWith(color: AppColors.manatee))
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 
 }

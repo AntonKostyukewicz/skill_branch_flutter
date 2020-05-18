@@ -50,9 +50,13 @@ class _FeedState extends State<Feed> {
                     altDescription: 'Test altDescription',
                     userName: 'kaparray',
                     name: 'Kirill Adeshchenko',
-                    userPhoto: 'https://skill-branch.ru/img/speakers/Adechenko.jpg')));
+                    userPhoto: 'https://skill-branch.ru/img/speakers/Adechenko.jpg',
+                    heroTag: 'photo-$index')));
           },
-          child: Photo(photoLink: kFlutterDash)),
+          child: Hero(
+            tag: 'photo-$index',
+            child: Photo(photoLink: kFlutterDash),
+          )),
         _buildPhotoMeta(index),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
