@@ -162,7 +162,7 @@ class PhotoMetaData extends StatelessWidget {
     opacityName = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: animationController,
-        curve: Interval(0.0, 1.0, curve: Curves.ease),
+        curve: Interval(0.5, 1.0, curve: Curves.ease),
       ),
     ),
     super(key: key);
