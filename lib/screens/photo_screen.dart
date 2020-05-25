@@ -175,8 +175,16 @@ class PhotoMetaData extends StatelessWidget {
   final Animation<double> opacityAvatar;
   final Animation<double> opacityName;
 
+
   @override
   Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      builder: _buildPhotoMetaData,
+      animation: animationController,
+    );
+  }
+
+  Widget _buildPhotoMetaData(BuildContext context, Widget child) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
@@ -192,14 +200,8 @@ class PhotoMetaData extends StatelessWidget {
             child: UserAvatar(photo),
           ),
           SizedBox(width: 10),
-          AnimatedBuilder(
-            animation: animationController,
-            builder: (context, child) {
-              return FadeTransition(
-                opacity: opacityName,
-                child: child,
-              );
-            },
+          Opacity(
+            opacity: opacityName.value,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
